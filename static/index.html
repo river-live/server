@@ -36,6 +36,19 @@
         li.innerHTML = message;
         document.getElementById("messages").append(li);
       });
+
+      socket.on("connect", () => {
+        socket
+          .emit("authenticate", {
+            token:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTcxODQ2NjUsIm5hbWUiOiJKdWxpYSB3aWxsIGV4cGlyZSIsImlhdCI6MTU5NzE4NDYwNX0.gu1Fp-hYdQDij1PX12dGrZ_rHfFN1WHiriWpTWqLH4o",
+          })
+          .on("authenticated", () => {})
+          .on("unauthorized", (msg) => {
+            console.log(`unauthorized: ${JSON.stringify(msg.data)}`);
+            throw new Error(msg.data.type);
+          });
+      });
     </script>
   </body>
 </html>

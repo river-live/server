@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const socketio = require("socket.io");
+const socketioJwt = require("socketio-jwt");
 const cors = require("cors");
 const socketioRedis = require("socket.io-redis");
 
@@ -30,16 +31,32 @@ app.get("/", function (req, res) {
   res.send("Healthy");
 });
 
-io.on("connection", (socket) => {
-  socket.on("room-join", (room) => {
-    socket.join(room);
-    socket.emit("event", "Joined room " + room);
-    socket.broadcast.to(room).emit("event", "Someone joined room " + room);
+io.sockets
+  .on(
+    "connection",
+    socketioJwt.authorize({
+      secret: "SECRET",
+      timeout: 15000,
+      callback: false, // disconnects socket if auth fails
+    })
+  )
+  .on("authenticated", (socket) => {
+    // do stuff with authenticated sockets
+    console.log(`hello! ${socket.decoded_token.name}`);
+
+    socket.on("room-join", (room) => {
+      socket.join(room);
+      socket.emit("event", "Joined room " + room);
+      socket.broadcast.to(room).emit("event", "Someone joined room " + room);
+    });
+
+    socket.on("event", (e) => {
+      socket.broadcast.to(e.room).emit("event", e.name + " says hello!");
+    });
   });
 
-  socket.on("event", (e) => {
-    socket.broadcast.to(e.room).emit("event", e.name + " says hello!");
-  });
+io.on("room-join", (socket) => {
+  console.log(socket);
 });
 
 server.listen(3000, () => {

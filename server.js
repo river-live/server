@@ -37,7 +37,7 @@ io.sockets
     socketioJwt.authorize({
       secret: "SECRET",
       timeout: 15000,
-      callback: false, // disconnects socket if auth fails
+      // callback: false, // disconnects socket if auth fails
     })
   )
   .on("authenticated", (socket) => {
@@ -55,10 +55,6 @@ io.sockets
     });
   });
 
-io.on("room-join", (socket) => {
-  console.log(socket);
-});
-
-server.listen(3000, () => {
+server.listen(80, () => {
   console.log("Server started");
 });

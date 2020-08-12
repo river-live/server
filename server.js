@@ -37,7 +37,7 @@ io.sockets
     socketioJwt.authorize({
       secret: "SECRET",
       timeout: 15000,
-      // callback: false, // disconnects socket if auth fails
+      callback: false, // disconnects socket if auth fails
     })
   )
   .on("authenticated", (socket) => {
@@ -55,6 +55,6 @@ io.sockets
     });
   });
 
-server.listen(80, () => {
+server.listen(3000, () => {
   console.log("Server started");
 });

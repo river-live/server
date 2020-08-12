@@ -41,9 +41,11 @@
         socket
           .emit("authenticate", {
             token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTcxODU5ODUsIm5hbWUiOiJKdWxpYSB3aWxsIGV4cGlyZSIsImlhdCI6MTU5NzE4NTkyNX0.u8ZvNZGI50Vg03uAE-dIleKK2qij4JhE2MhrIIY4LwA",
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTcyODU2MzMsIm5hbWUiOiJKdWxpYSIsImlhdCI6MTU5NzE5OTIzM30.Kg0gBDQJCUt_rV9dAXbb65cQPVtvwxzQ-2qQTYfL5M8",
           })
-          .on("authenticated", () => {})
+          .on("authenticated", () => {
+            console.log(socket);
+          })
           .on("unauthorized", (msg) => {
             console.log(`unauthorized: ${JSON.stringify(msg.data)}`);
             throw new Error(msg.data.type);

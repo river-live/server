@@ -1,9 +1,10 @@
-const io = require("socket.io-client");
+// const io = require("socket.io-client");
+const io = require("../node_modules/socket.io-client");
 
 class River {
   constructor(options) {
     this.host = options.host;
-    this.socket = io(this.host);
+    this.socket = io(this.host, { path: "/" });
   }
 
   subscribe(channel) {

@@ -20,9 +20,9 @@ io.origins((origin, callback) => {
 });
 
 // Make Socket.io listen to Redis for pub/sub broadcasts
-io.adapter(
-  socketioRedis({ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT })
-);
+// io.adapter(
+//   socketioRedis({ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT })
+// );
 
 // Supply a route for the application load balancer to healthcheck on
 app.get("/", function (req, res) {
@@ -41,6 +41,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(80, () => {
+server.listen(3000, () => {
   console.log("Server started");
 });

@@ -30,7 +30,7 @@ app.get("/", function (req, res) {
 });
 
 io.on("connection", (socket) => {
-  socket.on("room-join", (room) => {
+  socket.on("subscribe", (room) => {
     socket.join(room);
     socket.emit("event", "Joined room " + room);
     socket.broadcast.to(room).emit("event", "Someone joined room " + room);

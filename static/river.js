@@ -1,10 +1,9 @@
-// const io = require("socket.io-client");
-const io = require("../node_modules/socket.io-client");
+const io = require("socket.io-client");
 
 class River {
   constructor(options) {
     this.host = options.host;
-    this.socket = io(this.host, { path: "/" });
+    this.socket = io(this.host, { transports: ["websocket"], upgrade: false });
   }
 
   subscribe(channel) {
@@ -23,6 +22,10 @@ class River {
     this.socket.on(eventName, (data) => {
       callback(data);
     });
+  }
+
+  emit(eventName, data) {
+    this.socket.emit(eventName, data);
   }
 }
 

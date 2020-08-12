@@ -58,3 +58,9 @@ io.sockets
 server.listen(3000, () => {
   console.log("Server started");
 });
+
+
+// socket.emit("message", {
+//   channel: "my-channel",
+//   data: "some data",
+// })

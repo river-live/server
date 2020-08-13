@@ -3,8 +3,9 @@ const http = require("http");
 const socketio = require("socket.io");
 const cors = require("cors");
 const socketioRedis = require("socket.io-redis");
-const process = require("process");
-const port = process.argv[2] || 3000;
+// const process = require("process");
+// const port = process.argv[2] || 3000;
+const port = 80;
 
 const app = express();
 const server = http.createServer(app);
@@ -26,9 +27,9 @@ const redisPort = process.env.REDIS_PORT || 6379;
 io.adapter(socketioRedis({ redisHost, redisPort }));
 
 // Supply a route for the application load balancer to healthcheck on
-// app.get("/", function (req, res) {
-//   res.send("Healthy");
-// });
+app.get("/", function (req, res) {
+  res.send("Healthy");
+});
 
 io.on("connection", (socket) => {
   socket.on("subscribe", (channel) => {

@@ -12,6 +12,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   pingTimeout: 60000,
+  path: "/ws",
 });
 
 const redisHost = process.env.REDIS_HOST || "localhost";
@@ -30,9 +31,9 @@ io.origins((origin, callback) => {
 io.adapter(socketioRedis({ redisHost, redisPort }));
 
 // Supply a route for the application load balancer to healthcheck on
-// app.get("/", function (req, res) {
-//   res.send("Healthy");
-// });
+app.get("/", function (req, res) {
+  res.send("Healthy");
+});
 
 io.sockets
   .on(
@@ -48,6 +49,7 @@ io.sockets
     console.log(`hello! ${socket.decoded_token.name}`);
 
     socket.on("subscribe", (channel) => {
+      console.log(`${socket.id} joined channel ${channel}`);
       socket.join(channel);
     });
 

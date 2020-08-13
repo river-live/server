@@ -8,7 +8,7 @@ If you're using River as is, there is nothing you need to do! This repository si
 
 ### Push your image to Docker Hub
 
-**This step is needed only if you fork and modify the River project**
+**Note: this step is needed only if you fork and modify the River project.**
 
 This is an open source project, feel free to fork it and modify it!
 

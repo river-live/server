@@ -19,7 +19,10 @@ io.origins((origin, callback) => {
   callback(null, true);
 });
 
+// TODO Define constant with host and port that defaults to localhost and 6379 when process.env is not defined
+
 // Make Socket.io listen to Redis for pub/sub broadcasts
+// TODO put in try/catch statement, so lack of Redis doesn't crash app
 io.adapter(
   socketioRedis({ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT })
 );
@@ -30,12 +33,14 @@ app.get("/", function (req, res) {
 });
 
 io.on("connection", (socket) => {
+  // TODO change to "subscribe"
   socket.on("room-join", (room) => {
     socket.join(room);
     socket.emit("event", "Joined room " + room);
     socket.broadcast.to(room).emit("event", "Someone joined room " + room);
   });
 
+  // TODO add "unsubsrcribe" event
   socket.on("event", (e) => {
     socket.broadcast.to(e.room).emit("event", e.name + " says hello!");
   });

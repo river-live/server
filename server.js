@@ -12,8 +12,6 @@ const io = socketio(server, {
   pingTimeout: 60000,
 });
 
-app.use(express.static("static"));
-
 // Accept requests from all origins
 app.use(cors());
 
@@ -25,16 +23,7 @@ const redisHost = process.env.REDIS_HOST || "localhost";
 const redisPort = process.env.REDIS_PORT || 6379;
 
 // Make Socket.io listen to Redis for pub/sub broadcasts
-async function connectToRedis() {
-  try {
-    const redis = await socketioRedis({ redisHost, redisPort });
-    io.adapter(redis);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-connectToRedis();
+io.adapter(socketioRedis({ redisHost, redisPort }));
 
 // Supply a route for the application load balancer to healthcheck on
 // app.get("/", function (req, res) {
@@ -44,19 +33,10 @@ connectToRedis();
 io.on("connection", (socket) => {
   socket.on("subscribe", (channel) => {
     socket.join(channel);
-    socket.emit("event", "Joined channel " + channel);
-    socket.broadcast
-      .to(channel)
-      .emit("event", "Someone joined channel " + channel);
   });
 
   socket.on("unsubscribe", (channel) => {
     socket.leave(channel);
-    socket.emit("event", "Left room " + channel);
-  });
-
-  socket.on("event", (e) => {
-    socket.broadcast.to(e.channel).emit("event", e.name + " says hello!");
   });
 });
 

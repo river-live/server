@@ -4,7 +4,11 @@ This is a WebSocket server written with Express and [socket.io](https://socket.i
 
 It is meant to be deployed as an AWS ECS cluster using [AWS Fargate](https://aws.amazon.com/fargate/). As such, it includes a `Dockerfile` so that an image can be built and uploaded to e.g. [Docker Hub](https://hub.docker.com/). A public image of this app can be found [here](https://hub.docker.com/repository/docker/catherinemond/river-demo-redis). It is currently used for River beta deployment.
 
+If you're using River as is, there is nothing you need to do! This repository simply lets you have a look at what's going on inside your WebSocket server.
+
 ### Push your image to Docker Hub
+
+**This step is needed only if you fork and modify the River project**
 
 This is an open source project, feel free to fork it and modify it!
 

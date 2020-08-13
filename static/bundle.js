@@ -7146,7 +7146,8 @@ const io = require("socket.io-client");
 class River {
   constructor(options) {
     this.host = options.host;
-    this.socket = io(this.host, { transports: ["websocket"], upgrade: false });
+    // this.socket = io(this.host, { transports: ["websocket"], upgrade: false });
+    this.socket = io({ transports: ["websocket"], upgrade: false });
   }
 
   subscribe(channel) {

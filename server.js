@@ -3,7 +3,8 @@ const http = require("http");
 const socketio = require("socket.io");
 const cors = require("cors");
 const socketioRedis = require("socket.io-redis");
-const port = 3000;
+const process = require("process");
+const port = process.argv[2] || 3000;
 
 const app = express();
 const server = http.createServer(app);
@@ -26,11 +27,14 @@ const redisPort = process.env.REDIS_PORT || 6379;
 // Make Socket.io listen to Redis for pub/sub broadcasts
 async function connectToRedis() {
   try {
-    await io.adapter(socketioRedis({ redisHost, redisPort }));
+    const redis = await socketioRedis({ redisHost, redisPort });
+    io.adapter(redis);
   } catch (error) {
     console.error(error);
   }
 }
+
+connectToRedis();
 
 // Supply a route for the application load balancer to healthcheck on
 // app.get("/", function (req, res) {

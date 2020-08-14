@@ -4,7 +4,6 @@ const socketio = require("socket.io");
 const cors = require("cors");
 const socketioRedis = require("socket.io-redis");
 const socketioJwt = require("socketio-jwt");
-const port = 80;
 
 const app = express();
 const server = http.createServer(app);
@@ -12,8 +11,8 @@ const io = socketio(server, {
   pingTimeout: 60000,
 });
 
-const redisHost = process.env.REDIS_HOST || "localhost";
-const redisPort = process.env.REDIS_PORT || 6379;
+const host = process.env.REDIS_HOST || "localhost";
+const port = process.env.REDIS_PORT || 6379;
 
 const jwtSecret = process.env.APP_ID || "SECRET";
 
@@ -25,7 +24,7 @@ io.origins((origin, callback) => {
 });
 
 // Make Socket.io listen to Redis for pub/sub broadcasts
-io.adapter(socketioRedis({ redisHost, redisPort }));
+io.adapter(socketioRedis({ host, port }));
 
 // Supply a route for the application load balancer to healthcheck on
 app.get("/", function (req, res) {
@@ -52,4 +51,4 @@ io.sockets
     });
   });
 
-server.listen(port);
+server.listen(80);

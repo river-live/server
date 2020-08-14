@@ -4,9 +4,7 @@ const socketio = require("socket.io");
 const cors = require("cors");
 const socketioRedis = require("socket.io-redis");
 const socketioJwt = require("socketio-jwt");
-const process = require("process");
-const port = process.argv[2] || 3000;
-// const port = 80;
+const port = 80;
 
 const app = express();
 const server = http.createServer(app);
@@ -30,9 +28,9 @@ io.origins((origin, callback) => {
 io.adapter(socketioRedis({ redisHost, redisPort }));
 
 // Supply a route for the application load balancer to healthcheck on
-// app.get("/", function (req, res) {
-//   res.send("Healthy");
-// });
+app.get("/", function (req, res) {
+  res.send("Healthy");
+});
 
 io.sockets
   .on(
@@ -45,8 +43,6 @@ io.sockets
   )
   .on("authenticated", (socket) => {
     // do stuff with authenticated sockets
-    console.log(`hello! ${socket.decoded_token.name}`);
-
     socket.on("subscribe", (channel) => {
       socket.join(channel);
     });
@@ -56,6 +52,4 @@ io.sockets
     });
   });
 
-server.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});
+server.listen(port);

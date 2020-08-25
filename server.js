@@ -1,3 +1,21 @@
+// start this file with this command to allow manual garbage collection:
+// node --nouse-idle-notification --expose-gc server.js
+
+function scheduleGc() {
+  if (!global.gc) {
+    console.log("Garbage collection is not exposed");
+    return;
+  }
+
+  setTimeout(function () {
+    global.gc();
+    console.log("Manual gc", process.memoryUsage());
+    scheduleGc();
+  }, 30000);
+}
+
+scheduleGc();
+
 const express = require("express");
 const http = require("http");
 const socketio = require("socket.io");
@@ -41,6 +59,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(80, () => {
+server.listen(3000, () => {
   console.log("Server started");
 });

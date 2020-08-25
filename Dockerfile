@@ -7,4 +7,4 @@ ADD . .
 FROM mhart/alpine-node:slim-12
 COPY --from=build /srv .
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["node", "--nouse-idle-notification", "--expose-gc", "server.js"]

@@ -2,7 +2,7 @@
 
 This is a WebSocket server written with Express and [socket.io](https://socket.io/). It expects a running Redis instance providing a pub/sub mechanism to coordinate between multiple servers.
 
-It is meant to be deployed as an AWS ECS cluster using [AWS Fargate](https://aws.amazon.com/fargate/). As such, it includes a `Dockerfile` so that an image can be built and uploaded to e.g. [Docker Hub](https://hub.docker.com/). A public image of this app can be found [here](https://hub.docker.com/repository/docker/catherinemond/river-demo-redis). It is currently used for River beta deployment.
+It is meant to be deployed as an AWS ECS cluster using [AWS Fargate](https://aws.amazon.com/fargate/). As such, it includes a `Dockerfile` so that an image can be built and uploaded to e.g. [Docker Hub](https://hub.docker.com/). A public image of this app can be found [here](https://hub.docker.com/repository/docker/riverlive/ws-server). It is currently used for River beta deployment.
 
 If you're using River as is, there is nothing you need to do! This repository simply lets you have a look at what's going on inside your WebSocket server.
 
